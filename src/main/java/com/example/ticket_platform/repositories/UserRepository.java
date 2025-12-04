@@ -1,4 +1,4 @@
-package com.example.ticket_platform.domain.repositories;
+package com.example.ticket_platform.repositories;
 
 
 import com.example.ticket_platform.domain.entities.User;

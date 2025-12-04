@@ -1,8 +1,8 @@
-package com.example.ticket_platform.domain.filters;
+package com.example.ticket_platform.filters;
 
 
 import com.example.ticket_platform.domain.entities.User;
-import com.example.ticket_platform.domain.repositories.UserRepository;
+import com.example.ticket_platform.repositories.UserRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
