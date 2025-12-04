@@ -9,10 +9,11 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.UUID;
 
 @Entity
-@Table(name="")
+@Table(name="ticket_validation")
 @Getter
 @Setter
 @AllArgsConstructor
@@ -38,6 +39,11 @@ public class TicketValidation {
     private TicketValidationMethodEnum ticketValidationMethodEnum;
 
 
+    @ManyToOne( fetch = FetchType.LAZY)
+    @JoinColumn(name="ticket_id")
+    private Ticket ticket;
+
+
     @CreatedDate
     @Column( name="created_at", updatable = false, nullable = false )
     private LocalDateTime createdAt;
@@ -46,4 +52,16 @@ public class TicketValidation {
     @LastModifiedDate
     @Column( name ="updated_at", nullable = false)
     private LocalDateTime updatedAt;
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        TicketValidation that = (TicketValidation) o;
+        return Objects.equals(id, that.id) && status == that.status && Objects.equals(createdAt, that.createdAt) && Objects.equals(updatedAt, that.updatedAt);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, status, createdAt, updatedAt);
+    }
 }
