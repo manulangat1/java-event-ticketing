@@ -44,6 +44,12 @@ public class TicketType {
     private Double price;
 
     @Column(
+            name = "description",
+            nullable = false
+    )
+    private String description;
+
+    @Column(
             name = "total_available",
             nullable = true
     )
