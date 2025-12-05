@@ -12,7 +12,7 @@ import org.mapstruct.ReportingPolicy;
 public interface EventMapper {
     CreateTicketTypeRequest fromDto(CreateTicketTypeRequestDto dto) ;
 
-    CreateEventRequestDto fromDto(CreateEventResponseDto dto);
+    CreateEventRequestDto fromDto(CreateEventRequestDto dto);
 
 
     CreateEventResponseDto toDto(Event event);
