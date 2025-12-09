@@ -15,12 +15,30 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain (HttpSecurity http, UserProvisioningFilter userProvisioningFilter) throws  Exception {
-        http.authorizeHttpRequests(authorize -> authorize.anyRequest().authenticated()).csrf(
-                csrf -> csrf.disable()
-        ).sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .oauth2ResourceServer(oauth2 -> oauth2.jwt(
-                        Customizer.withDefaults()
-                ) ).addFilterAfter(userProvisioningFilter, BearerTokenAuthenticationFilter.class);
+
+        http
+                .authorizeHttpRequests(authorize -> authorize
+                        // Whitelist /api-docs and Swagger UI endpoints
+                        .requestMatchers(
+                                "/api-docs/**",
+                                "/swagger-ui/**",
+                                "/swagger-ui.html"
+                        ).permitAll()
+                        // Everything else requires authentication
+                        .anyRequest().authenticated()
+                )
+                .csrf(csrf -> csrf.disable())
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()))
+                .addFilterAfter(userProvisioningFilter, BearerTokenAuthenticationFilter.class);
+
         return http.build();
+//        http.authorizeHttpRequests(authorize -> authorize.anyRequest().authenticated()).csrf(
+//                csrf -> csrf.disable()
+//        ).sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+//                .oauth2ResourceServer(oauth2 -> oauth2.jwt(
+//                        Customizer.withDefaults()
+//                ) ).addFilterAfter(userProvisioningFilter, BearerTokenAuthenticationFilter.class);
+//        return http.build();
     }
 }
