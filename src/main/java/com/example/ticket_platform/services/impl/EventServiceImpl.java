@@ -1,6 +1,6 @@
 package com.example.ticket_platform.services.impl;
 
-import com.example.ticket_platform.domain.CreateEventRequest;
+import com.example.ticket_platform.domain.dtos.CreateEventRequestDto;
 import com.example.ticket_platform.domain.entities.Event;
 import com.example.ticket_platform.domain.entities.TicketType;
 import com.example.ticket_platform.domain.entities.User;
@@ -20,7 +20,7 @@ public class EventServiceImpl implements EventService {
     private final UserRepository userRepository;
     private final EventRepository eventRepository;
     @Override
-    public Event createEvent(UUID organizerId, CreateEventRequest event) {
+    public Event createEvent(UUID organizerId, CreateEventRequestDto event) {
        User organizer =  userRepository.findById(organizerId).orElseThrow(() -> new UserNotFoundException(
                String.format("User with ID '%s' not found", organizerId)
        ));
