@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.UUID;
 
 @Controller
-@RequestMapping(params = "/api/v1/events")
+@RequestMapping(path = "/api/v1/events")
 @RequiredArgsConstructor
 public class EventController {
 
@@ -34,13 +34,14 @@ public class EventController {
             @Valid @RequestBody CreateEventRequestDto createEventRequestDto
 
             ){
-CreateEventRequestDto createEventRequest= eventMapper.fromDto(createEventRequestDto);
-UUID userId =  UUID.fromString( jwt.getSubject());
-Event createdEvent =  eventService.createEvent(userId, createEventRequest);
-CreateEventResponseDto createEventResponseDto=  eventMapper.toDto(createdEvent);
-return  new ResponseEntity<>(
-        createEventResponseDto,
-        HttpStatus.CREATED
+        System.out.println("Serving the req:");
+            CreateEventRequestDto createEventRequest= eventMapper.fromDto(createEventRequestDto);
+            UUID userId =  UUID.fromString( jwt.getSubject());
+            Event createdEvent =  eventService.createEvent(userId, createEventRequest);
+            CreateEventResponseDto createEventResponseDto=  eventMapper.toDto(createdEvent);
+        return  new ResponseEntity<>(
+                createEventResponseDto,
+                HttpStatus.CREATED
 );
 
     }

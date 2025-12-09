@@ -4,7 +4,9 @@ import com.example.ticket_platform.domain.CreateTicketTypeRequest;
 import com.example.ticket_platform.domain.dtos.CreateEventRequestDto;
 import com.example.ticket_platform.domain.dtos.CreateEventResponseDto;
 import com.example.ticket_platform.domain.dtos.CreateTicketTypeRequestDto;
+import com.example.ticket_platform.domain.dtos.CreateTicketTypeResponseDto;
 import com.example.ticket_platform.domain.entities.Event;
+import com.example.ticket_platform.domain.entities.TicketType;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
@@ -16,4 +18,7 @@ public interface EventMapper {
 
 
     CreateEventResponseDto toDto(Event event);
+
+    // REQUIRED so MapStruct can auto-map List<TicketType> → List<CreateTicketTypeResponseDto>
+    CreateTicketTypeResponseDto toDto(TicketType ticketType);
 }
