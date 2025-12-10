@@ -3,7 +3,9 @@ package com.example.ticket_platform;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+
 @SpringBootApplication
+//@EnableSwagger2
 public class TicketPlatformApplication {
 
 	public static void main(String[] args) {
