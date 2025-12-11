@@ -1,0 +1,21 @@
+package com.example.ticket_platform.domain;
+
+import com.example.ticket_platform.domain.enums.EventStatusEnum;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
+public class UpdateEventRequest {
+    private UUID id;
+    private String name;
+    private LocalDateTime start;
+    private LocalDateTime end;
+    private String venue;
+    private LocalDateTime salesStart;
+    private LocalDateTime salesEnd;
+    private EventStatusEnum status;
+    //    private User organizer;
+    private List<UpdateTicketTypeRequest> ticketTypes = new ArrayList<>();
+}
