@@ -1,5 +1,6 @@
 package com.example.ticket_platform.services;
 
+import com.example.ticket_platform.domain.UpdateEventRequest;
 import com.example.ticket_platform.domain.dtos.CreateEventRequestDto;
 import com.example.ticket_platform.domain.entities.Event;
 import org.springframework.data.domain.Page;
@@ -15,5 +16,5 @@ public interface EventService {
     Page<Event> listEventsForOrganizer(UUID organizerId, Pageable pageable);
 //    Optional<Event> findByIdAndOrganizerId(UUID id, UUID organizerId);
     Optional<Event> getEventForOrganizer( UUID organizerId, UUID id);
-    Event
+    Event updateEventForOrganizer(UUID organizerId, UUID id, UpdateEventRequest event);
 }
