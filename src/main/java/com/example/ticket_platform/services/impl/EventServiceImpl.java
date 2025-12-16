@@ -1,5 +1,6 @@
 package com.example.ticket_platform.services.impl;
 
+import com.example.ticket_platform.domain.UpdateEventRequest;
 import com.example.ticket_platform.domain.dtos.CreateEventRequestDto;
 import com.example.ticket_platform.domain.entities.Event;
 import com.example.ticket_platform.domain.entities.TicketType;
@@ -62,6 +63,11 @@ public class EventServiceImpl implements EventService {
         return eventRepository.findByIdAndOrganizerId(id, organizerId);
     }
 
+    @Override
+    public Event updateEventForOrganizer(UUID organizerId, UUID id, UpdateEventRequest event) {
+        return null;
+//        return
+    }
 
 
 
