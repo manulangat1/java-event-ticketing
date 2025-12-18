@@ -2,10 +2,8 @@ package com.example.ticket_platform.controllers;
 
 
 import com.example.ticket_platform.domain.CreateEventRequest;
-import com.example.ticket_platform.domain.dtos.CreateEventRequestDto;
-import com.example.ticket_platform.domain.dtos.CreateEventResponseDto;
-import com.example.ticket_platform.domain.dtos.GetEventDetailsEventResponseDto;
-import com.example.ticket_platform.domain.dtos.ListEventResponseDto;
+import com.example.ticket_platform.domain.UpdateEventRequest;
+import com.example.ticket_platform.domain.dtos.*;
 import com.example.ticket_platform.domain.entities.Event;
 import com.example.ticket_platform.mappers.EventMapper;
 import com.example.ticket_platform.services.EventService;
@@ -74,6 +72,28 @@ public class EventController {
                .map(eventMapper::toGetEventDetailsEventResponseDto)
                .map(ResponseEntity::ok)
                .orElse(ResponseEntity.notFound().build());
+
+    }
+
+
+    @PutMapping(path="/{eventId}")
+    public  ResponseEntity<UpdateEventResponseDto> updateEvent (
+            @AuthenticationPrincipal Jwt jwt,
+            @PathVariable UUID eventId,
+            @Valid @RequestBody UpdateEventRequestDto dto
+    ) {
+        UUID userId = parseUserId(jwt);
+        UpdateEventRequest updateEventRequest = eventMapper.fromDto(
+                dto
+        );
+             Event updatedEvent =  eventService.updateEventForOrganizer(
+                        userId, eventId,updateEventRequest
+                );
+             UpdateEventResponseDto responseDto= eventMapper.toUpdateEventResponseDto(updatedEvent);
+             return  new ResponseEntity<>(
+                     responseDto,
+                     HttpStatus.OK
+             );
 
     }
 

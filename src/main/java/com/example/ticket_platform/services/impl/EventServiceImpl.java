@@ -5,10 +5,12 @@ import com.example.ticket_platform.domain.dtos.CreateEventRequestDto;
 import com.example.ticket_platform.domain.entities.Event;
 import com.example.ticket_platform.domain.entities.TicketType;
 import com.example.ticket_platform.domain.entities.User;
+import com.example.ticket_platform.exceptions.EventNotFoundException;
 import com.example.ticket_platform.exceptions.UserNotFoundException;
 import com.example.ticket_platform.repositories.EventRepository;
 import com.example.ticket_platform.repositories.UserRepository;
 import com.example.ticket_platform.services.EventService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -25,6 +27,7 @@ public class EventServiceImpl implements EventService {
     private final UserRepository userRepository;
     private final EventRepository eventRepository;
     @Override
+    @Transactional
     public Event createEvent(UUID organizerId, CreateEventRequestDto event) {
        User organizer =  userRepository.findById(organizerId).orElseThrow(() -> new UserNotFoundException(
                String.format("User with ID '%s' not found", organizerId)
@@ -64,9 +67,15 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
+    @Transactional
     public Event updateEventForOrganizer(UUID organizerId, UUID id, UpdateEventRequest event) {
+
+       Event existingEvent = eventRepository.findByIdAndOrganizerId(id, organizerId).orElseThrow(() -> new EventNotFoundException(
+                String.format("Event with id %s not found", id)));
+//       existingEvent.setName( event.getName());
+//       existingEvent.setStatus(event.getStatus());
         return null;
-//        return
+
     }
 
 

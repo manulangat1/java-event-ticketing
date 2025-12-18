@@ -1,0 +1,19 @@
+package com.example.ticket_platform.domain.dtos;
+
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PositiveOrZero;
+
+public class UpdateTicketTypeRequestDto {
+
+    @NotBlank( message = "Ticket type name is required")
+    private String name;
+    @NotNull(message = "Price is required")
+    @PositiveOrZero( message = "Price must be zero or greater.")
+    private  Double price;
+
+
+    private String description;
+
+    private  Integer totalAvailable;
+}
