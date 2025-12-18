@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 //import org.hibernate.query.Page;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -112,16 +113,37 @@ public class EventController {
     @GetMapping("/published")
     public  ResponseEntity<Page<ListPublishedEventResponseDto>> listPublishedEvents (
             @AuthenticationPrincipal Jwt jwt,
-            Pageable pageable
+            Pageable pageable,
+            @RequestParam( required = false) String q
     ) {
-        UUID userId = parseUserId(jwt);
-        Page<Event> events = eventService.listPublishedEvents(pageable);
+        Page<Event> events;
+
+        if ( null != q && !q.trim().isEmpty()) {
+            events = eventService.searchPublishedEvents(q, pageable);
+        } else {
+            events = eventService.listPublishedEvents(pageable);
+        }
         return  ResponseEntity.ok(
                 events.map(
                         eventMapper::toListPublishedEventResponseDto
                 ));
+    }
+    @GetMapping("/published-events/{eventId}")
+    public  ResponseEntity<ListPublishedEventResponseDto> getPublishedEventById (
+            @AuthenticationPrincipal Jwt jwt,
+            @PathVariable UUID eventId
+    ) {
+UUID userId = parseUserId(jwt);
+Optional<Event> optionalEvent = eventService.getPublishedEventById(eventId)
 
-
+        if (optionalEvent.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        Event event = optionalEvent.get();
+ListPublishedEventResponseDto eventResponse = eventMapper.toListPublishedEventResponseDto(event);
+return  ResponseEntity.ok(
+        eventResponse
+);
     }
     private UUID parseUserId ( Jwt jwt) {
         return  UUID.fromString(jwt.getSubject());
