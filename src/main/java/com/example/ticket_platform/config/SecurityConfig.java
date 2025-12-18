@@ -4,6 +4,7 @@ package com.example.ticket_platform.config;
 import com.example.ticket_platform.filters.UserProvisioningFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -23,22 +24,19 @@ public class SecurityConfig {
                                 "/api-docs/**",
                                 "/swagger-ui/**",
                                 "/swagger-ui.html"
-                        ).permitAll()
+
+                        )
+
+                        .permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/published").permitAll()
                         // Everything else requires authentication
                         .anyRequest().authenticated()
                 )
-                .csrf(csrf -> csrf.disable())
+//                .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()))
                 .addFilterAfter(userProvisioningFilter, BearerTokenAuthenticationFilter.class);
 
         return http.build();
-//        http.authorizeHttpRequests(authorize -> authorize.anyRequest().authenticated()).csrf(
-//                csrf -> csrf.disable()
-//        ).sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-//                .oauth2ResourceServer(oauth2 -> oauth2.jwt(
-//                        Customizer.withDefaults()
-//                ) ).addFilterAfter(userProvisioningFilter, BearerTokenAuthenticationFilter.class);
-//        return http.build();
     }
 }
