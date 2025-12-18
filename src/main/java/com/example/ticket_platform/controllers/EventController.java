@@ -116,7 +116,6 @@ public class EventController {
             Pageable pageable,
             @RequestParam( required = false) String q
     ) {
-//        UUID userId = parseUserId(jwt);
         Page<Event> events;
 
         if ( null != q && !q.trim().isEmpty()) {
@@ -124,17 +123,28 @@ public class EventController {
         } else {
             events = eventService.listPublishedEvents(pageable);
         }
-
-//        Page<Event> events = eventService.listPublishedEvents(pageable);
         return  ResponseEntity.ok(
                 events.map(
                         eventMapper::toListPublishedEventResponseDto
                 ));
-
-
     }
+    @GetMapping("/published-events/{eventId}")
+    public  ResponseEntity<ListPublishedEventResponseDto> getPublishedEventById (
+            @AuthenticationPrincipal Jwt jwt,
+            @PathVariable UUID eventId
+    ) {
+UUID userId = parseUserId(jwt);
+Optional<Event> optionalEvent = eventService.getPublishedEventById(eventId)
 
-//    @GetMapping('/published/searc')
+        if (optionalEvent.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        Event event = optionalEvent.get();
+ListPublishedEventResponseDto eventResponse = eventMapper.toListPublishedEventResponseDto(event);
+return  ResponseEntity.ok(
+        eventResponse
+);
+    }
     private UUID parseUserId ( Jwt jwt) {
         return  UUID.fromString(jwt.getSubject());
     }
