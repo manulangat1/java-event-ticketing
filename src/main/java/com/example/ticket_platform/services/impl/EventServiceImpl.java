@@ -5,6 +5,7 @@ import com.example.ticket_platform.domain.dtos.CreateEventRequestDto;
 import com.example.ticket_platform.domain.entities.Event;
 import com.example.ticket_platform.domain.entities.TicketType;
 import com.example.ticket_platform.domain.entities.User;
+import com.example.ticket_platform.domain.enums.EventStatusEnum;
 import com.example.ticket_platform.exceptions.EventNotFoundException;
 import com.example.ticket_platform.exceptions.UserNotFoundException;
 import com.example.ticket_platform.repositories.EventRepository;
@@ -84,6 +85,11 @@ public class EventServiceImpl implements EventService {
 //        Optional<Event> event = getEventForOrganizer(organizerId, id);
 //        eventRepository.delete(event);
         getEventForOrganizer(organizerId, id).ifPresent(eventRepository::delete);
+    }
+
+    @Override
+    public Page<Event> listPublishedEvents(Pageable pageable) {
+        return eventRepository.findByStatus(EventStatusEnum.PUBLISHED, pageable);
     }
 
 

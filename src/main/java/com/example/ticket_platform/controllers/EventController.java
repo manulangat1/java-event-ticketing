@@ -108,6 +108,21 @@ public class EventController {
         return  ResponseEntity.noContent().build();
 
     }
+
+    @GetMapping("/published")
+    public  ResponseEntity<Page<ListPublishedEventResponseDto>> listPublishedEvents (
+            @AuthenticationPrincipal Jwt jwt,
+            Pageable pageable
+    ) {
+        UUID userId = parseUserId(jwt);
+        Page<Event> events = eventService.listPublishedEvents(pageable);
+        return  ResponseEntity.ok(
+                events.map(
+                        eventMapper::toListPublishedEventResponseDto
+                ));
+
+
+    }
     private UUID parseUserId ( Jwt jwt) {
         return  UUID.fromString(jwt.getSubject());
     }
