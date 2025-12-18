@@ -11,5 +11,4 @@ import java.util.Optional;
 @NoArgsConstructor
 public class ErrorDto {
     private  String error;
-//    private Optional<String> errorMessage;
 }
