@@ -13,6 +13,7 @@ import com.example.ticket_platform.repositories.UserRepository;
 import com.example.ticket_platform.services.EventService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.BadRequestException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -90,6 +91,11 @@ public class EventServiceImpl implements EventService {
     @Override
     public Page<Event> listPublishedEvents(Pageable pageable) {
         return eventRepository.findByStatus(EventStatusEnum.PUBLISHED, pageable);
+    }
+
+    @Override
+    public Page<Event> searchPublishedEvents(String query, Pageable pageable) {
+        return  eventRepository.searchEvents(query, pageable);
     }
 
 
