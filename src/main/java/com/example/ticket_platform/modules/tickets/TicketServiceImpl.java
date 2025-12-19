@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -18,5 +19,10 @@ private  final  TicketRepository ticketRepository;
         return   ticketRepository.findTicketsByUser(userId, pageable );
 //        Page<Ticket> tickets = ticketRepository.findTicketsByUser(userId, pageable );
 //        return  tickets;
+    }
+
+    @Override
+    public Optional<Ticket> findById(UUID ticketID) {
+        return ticketRepository.findById(ticketID);
     }
 }
