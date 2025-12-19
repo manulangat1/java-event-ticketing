@@ -2,10 +2,7 @@ package com.example.ticket_platform.controllers;
 
 
 import com.example.ticket_platform.domain.dtos.ErrorDto;
-import com.example.ticket_platform.exceptions.EventNotFoundException;
-import com.example.ticket_platform.exceptions.EventUpdateException;
-import com.example.ticket_platform.exceptions.TicketTypeNotFoundException;
-import com.example.ticket_platform.exceptions.UserNotFoundException;
+import com.example.ticket_platform.exceptions.*;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -28,6 +25,14 @@ public class GlobalExceptionHandler {
         ErrorDto errorDto = new ErrorDto();
         errorDto.setError("event not found");
         return  new ResponseEntity<ErrorDto>(errorDto, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler( QrCodeNotFoundException.class)
+    public  ResponseEntity<ErrorDto> handleQrCodeNotFoundException (QrCodeNotFoundException ex) {
+        log.error("Caught qr code not found exception", ex);
+        ErrorDto errorDto = new ErrorDto();
+        errorDto.setError("qr code not found");
+        return  new ResponseEntity<ErrorDto>(errorDto, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(TicketTypeNotFoundException.class)

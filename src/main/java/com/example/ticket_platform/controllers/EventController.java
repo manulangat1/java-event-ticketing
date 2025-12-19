@@ -134,7 +134,7 @@ public class EventController {
             @PathVariable UUID eventId
     ) {
 UUID userId = parseUserId(jwt);
-Optional<Event> optionalEvent = eventService.getPublishedEventById(eventId)
+Optional<Event> optionalEvent = eventService.getPublishedEventById(eventId);
 
         if (optionalEvent.isEmpty()) {
             return ResponseEntity.notFound().build();
