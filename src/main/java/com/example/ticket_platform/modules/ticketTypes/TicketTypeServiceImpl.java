@@ -8,7 +8,7 @@ import com.example.ticket_platform.exceptions.TicketSoldOutException;
 import com.example.ticket_platform.exceptions.TicketTypeNotFoundException;
 import com.example.ticket_platform.exceptions.UserNotFoundException;
 import com.example.ticket_platform.modules.qrcode.QRCodeService;
-import com.example.ticket_platform.repositories.TicketRepository;
+import com.example.ticket_platform.modules.tickets.TicketRepository;
 import com.example.ticket_platform.repositories.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
