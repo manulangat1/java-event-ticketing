@@ -21,4 +21,8 @@ public interface TicketTypeRepository extends JpaRepository<TicketType, UUID> {
     );
     Optional<TicketType> findByTicketTypeId( UUID id);
 
+
+//    implements functionality for ticket validation.
+
+
 }
